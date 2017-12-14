@@ -746,7 +746,6 @@ class DB {
      * @return bool
      *
      */
-    
     public function generateReport($res) {
         if (count($res) < 1) {
             return FALSE;
@@ -773,10 +772,10 @@ class DB {
         echo "</table>";
 
         echo "</td></tr></tbody></table></div>";
-    
+
         return True;
-        }
-    
+    }
+
 }
 
 //end class DB
