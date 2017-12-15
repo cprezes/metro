@@ -114,20 +114,39 @@ class DB {
 
     /**
      * The function returns a single data from an array variable based on parameters
+     * 
+     * Example usage: 
+     *  getSingleData($aResults,["id"=>"1"],"street");
+     * 
      * @access public
      * @param1 array $data
      * @param2 array $filter
      * @param3 string colum name 
-     * @return string $data
+     * @return mixed $data
      */
-    public function getSingleData($data, $filter, $column=false) {
-       $aRet=    array_filter($data, function($elem) use($filter) {
-            return $elem[$filter[0]] == $filter[1] ;
+    public function getSingleData($data, $filter, $column = false) {
+        $aRet = array_filter($data, function($elem) use($filter) {
+            return $elem[key($filter)] == $filter[key($filter)];
         });
-        return $aRet[];
+        return (!empty($ret) ? false : $aRet[key($aRet)][$column]);
     }
-
     
+        /**
+     * The function returns a single data from an array variable based on parameters
+     * 
+     * Example usage: 
+     *  getSingleData($aResults,"TimeStamp"));
+     * 
+     * @access public
+     * @param1 array $data
+     * @param2 string colum name 
+     * @return mixed $data
+     */
+    public function getSingleDataFormfistRow($data,  $column ) {
+          return (empty($data) ? false : array_shift(array_values($data))[$column]);
+    }
+    
+
     /**
      * Determine if common non-encapsulated fields are being used
      *
@@ -769,9 +788,10 @@ class DB {
      *
      */
     public function generateReport($res) {
-        if (count($res) < 1) {
+        if (empty($res)) {
             return FALSE;
         }
+
         $fields = array_keys($res[0]);
         echo '<div><table class="table table-bordered table-hover table-condensed" style="width: 100%;" >';
         echo "<thead style=\"  white-space: nowrap; \">";

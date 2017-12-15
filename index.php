@@ -11,7 +11,7 @@
         require_once 'setup.php';
 
         if (!(isset($_SESSION["num"]))) {$_SESSION["num"] = 0;}
-        if (isset($_REQUEST["strona"])) { $strona = $_REQUEST["strona"];
+        if (isset($_REQUEST["strona"]) && !empty ($_REQUEST["strona"]) ) { $strona = $_REQUEST["strona"];
             if ($strona > 0) { $num = 50;} else { $num = -50;}
             $_SESSION["num"] = abs($_SESSION["num"] + $num);}
 
@@ -21,10 +21,6 @@
         $query=$oBaza->filter($query);
         $aResults = $oBaza->get_results($query);
         $aResults = $oBaza->clean($aResults);
-        $aResults = $oBaza->getSingleData($aResults,["id","750"],"flor");
-        var_dump($aResults);
-        
-        die();
         $oBaza->generateReport($aResults);
         
         
