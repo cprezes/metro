@@ -18,9 +18,16 @@
         echo   $_SESSION['num'] . "<br/>";
 
         $query = "select * from metro  limit {$_SESSION['num']} ,50 ";
+        $query=$oBaza->filter($query);
         $aResults = $oBaza->get_results($query);
+        $aResults = $oBaza->clean($aResults);
+        $aResults = $oBaza->getSingleData($aResults,["id","750"],"flor");
+        var_dump($aResults);
+        
+        die();
         $oBaza->generateReport($aResults);
-
+        
+        
         $adres_url = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'];
         $adres_tmp = $_SERVER['PHP_SELF'] . "?";
         ?>

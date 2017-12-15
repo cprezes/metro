@@ -95,17 +95,39 @@ class DB {
      * echo $database->clean( $data_from_database );
      *
      * @access public
-     * @param string $data
-     * @return string $data
+     * @param array
+     * @param mixed $data 
+     * @return mixed $data
      */
     public function clean($data) {
-        $data = stripslashes($data);
-        $data = html_entity_decode($data, ENT_QUOTES, 'UTF-8');
-        $data = nl2br($data);
-        $data = urldecode($data);
+        if (!is_array($data)) {
+            $data = stripslashes($data);
+            $data = html_entity_decode($data, ENT_QUOTES, 'UTF-8');
+            $data = nl2br($data);
+            $data = urldecode($data);
+        } else {
+            //Self call function to sanitize array data
+            $data = array_map(array($this, 'clean'), $data);
+        }
         return $data;
     }
 
+    /**
+     * The function returns a single data from an array variable based on parameters
+     * @access public
+     * @param1 array $data
+     * @param2 array $filter
+     * @param3 string colum name 
+     * @return string $data
+     */
+    public function getSingleData($data, $filter, $column=false) {
+       $aRet=    array_filter($data, function($elem) use($filter) {
+            return $elem[$filter[0]] == $filter[1] ;
+        });
+        return $aRet[];
+    }
+
+    
     /**
      * Determine if common non-encapsulated fields are being used
      *
