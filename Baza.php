@@ -130,8 +130,8 @@ class DB {
         });
         return (!empty($ret) ? false : $aRet[key($aRet)][$column]);
     }
-    
-        /**
+
+    /**
      * The function returns a single data from an array variable based on parameters
      * 
      * Example usage: 
@@ -142,10 +142,11 @@ class DB {
      * @param2 string colum name 
      * @return mixed $data
      */
-    public function getSingleDataFormfistRow($data,  $column ) {
-          return (empty($data) ? false : array_shift(array_values($data))[$column]);
+    public function getSingleDataFormfistRow($data, $column) {
+        if (empty($data)){            return false;}
+        
+       return (@is_array($data[0]) ?           array_shift(array_values($data))[$column]:$data[$column]);
     }
-    
 
     /**
      * Determine if common non-encapsulated fields are being used
@@ -792,7 +793,7 @@ class DB {
             return FALSE;
         }
 
-        $fields = array_keys($res[0]);
+        $fields = array_keys(array_shift(array_values($res)));
         echo '<div><table class="table table-bordered table-hover table-condensed" style="width: 100%;" >';
         echo "<thead style=\"  white-space: nowrap; \">";
         foreach ($fields as $fileld) {
@@ -801,11 +802,11 @@ class DB {
         }
         echo "</thead><tbody>";
 
-        foreach ($res as $row) {
+        foreach ($res as $key1d => $values1d) {
             echo "<tr>";
-            foreach ($fields as $fileld) {
+            foreach ($values1d as $key2d => $values2d) {
 
-                echo "<td>" . $row[$fileld] . "</td>";
+                echo "<td>  $values2d </td>";
             }
             echo "</tr>";
         }

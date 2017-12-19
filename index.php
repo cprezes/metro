@@ -15,12 +15,12 @@
             if ($strona > 0) { $num = 50;} else { $num = -50;}
             $_SESSION["num"] = abs($_SESSION["num"] + $num);}
 
-        echo   $_SESSION['num'] . "<br/>";
 
         $query = "select * from metro  limit {$_SESSION['num']} ,50 ";
         $query=$oBaza->filter($query);
         $aResults = $oBaza->get_results($query);
         $aResults = $oBaza->clean($aResults);
+        echo $oBaza->getSingleDataFormfistRow($aResults,"id") . " do wiersza " . $oBaza->getSingleDataFormfistRow( end($aResults),"id")."<br/>";
         $oBaza->generateReport($aResults);
         
         
